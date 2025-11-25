@@ -1,0 +1,48 @@
+lient";
+
+import { useEffect, useState } from "react";
+
+type User = {
+  name: string;
+  role: string;
+};
+
+export default function UsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [name, setNamethen((res) => res.json())
+    .then((data) => {
+      console.log("成功", data);
+      setUsers(data);
+    })
+    .catch((err) => {
+      console.error("エラー:", err);
+    });
+};
+
+
+  // 追加
+  const addUser = () => {
+    fetch("http://localhost:8080/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, role }),
+    })
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error(err));
+  };
+
+  // 削除（Go と連携）
+  const deleteUser = (index: number) => {
+    fetch("http://localhost:8080/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ index }), // ★重要：ここがGoと一致
+    })
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    
